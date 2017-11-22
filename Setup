@@ -1,0 +1,75 @@
+#!/bin/bash
+#Check ~/.itunes_backup/PrivateFrameworks/MobileDevice.backup (Makes Sure Blank Folders Dont Fool it)
+if [ -e ~/.itunes_backup/PrivateFrameworks/MobileDevice.backup ]
+then
+    echo "Backup Folder Already Exists" > /dev/null 2>&1
+else
+    #Make Backup Directory(s)
+    	echo "Running First Launch Setup"
+    	echo "Creating Backup Directory(s)"
+		sudo mkdir ~/.itunes_backup/ > /dev/null 2>&1
+		sudo mkdir ~/.itunes_backup/Frameworks/ > /dev/null 2>&1
+		sudo mkdir ~/.itunes_backup/PrivateFrameworks/ > /dev/null 2>&1
+		sudo mkdir ~/.itunes_backup/Extensions/ > /dev/null 2>&1
+		#sudo mkdir ~/.itunes_backup/CoreServices/ > /dev/null 2>&1 (Check Line 32)
+		sudo mkdir ~/.itunes_backup/Applications > /dev/null 2>&1
+	#Backup Framework(s)
+		echo "Backing Up Frameworks"
+		sudo mv /Library/Frameworks/iTunesLibrary.framework ~/.itunes_backup/Frameworks/iTunesLibrary.backup
+	#Backup PrivateFrameworks
+		echo "Backing Up PrivateFrameworks"
+		sudo mv /System/Library/PrivateFrameworks/MobileDevice.framework ~/.itunes_backup/PrivateFrameworks/MobileDevice.backup > /dev/null 2>&1
+		sudo mv /System/Library/PrivateFrameworks/DeviceLink.framework ~/.itunes_backup/PrivateFrameworks/DeviceLink.backup > /dev/null 2>&1
+		sudo mv /System/Library/PrivateFrameworks/AirTrafficHost.framework ~/.itunes_backup/PrivateFrameworks/AirTrafficHost.backup > /dev/null 2>&1
+		sudo mv /System/Library/PrivateFrameworks/iTunesAccess.framework ~/.itunes_backup/PrivateFrameworks/iTunesAccess.backup > /dev/null 2>&1
+		sudo mv /System/Library/PrivateFrameworks/CoreFP.framework ~/.itunes_backup/PrivateFrameworks/CoreFP.backup > /dev/null 2>&1
+	#Backup Extension(s)
+		echo "Backing Up Extensions"
+		sudo mv /System/Library/Extensions/AppleMobileDevice.kext ~/.itunes_backup/Extensions/AppleMobileDevice.backup > /dev/null 2>&1
+	#Backup CoreServices (Disabled Because it Breaks Clipboard O_o)
+		#echo "Backing Up CoreServices"
+		#sudo mv /System/Library/CoreServices/CoreTypes.bundle ~/.itunes_backup/CoreServices/CoreTypes.backup > /dev/null 2>&1
+	#Backup Applications
+		echo "Backing Up Applications"
+		sudo mv /Applications/iTunes.app ~/.itunes_backup/Applications/iTunes.backup > /dev/null 2>&1
+fi
+#Check for Resource folder
+if [ -e ~/.itunes_backup/Resources/PrivateFrameworks/MobileDevice.framework ]
+then
+    echo "Found Existing Resource Folder" > /dev/null 2>&1
+else
+    #Make Load Resources
+    	echo "Creating Resource Directory(s)"
+		sudo mkdir ~/.itunes_backup/Resources/ > /dev/null 2>&1
+		sudo mkdir ~/.itunes_backup/Resources/Frameworks/ > /dev/null 2>&1
+		sudo mkdir ~/.itunes_backup/Resources/PrivateFrameworks/ > /dev/null 2>&1
+		sudo mkdir ~/.itunes_backup/Resources/Extensions/ > /dev/null 2>&1
+		#sudo mkdir ~/.itunes_backup/Resources/CoreServices/ > /dev/null 2>&1 (Check Line 32)
+		sudo mkdir ~/.itunes_backup/Resources/Applications/ > /dev/null 2>&1
+	#Loading Framework(s)
+		echo "Copying Frameworks"
+		sudo mv ./Frameworks/iTunesLibrary.framework ~/.itunes_backup/Resources/Frameworks/iTunesLibrary.framework > /dev/null 2>&1
+	#Loading PrivateFrameworks
+		echo "Copying PrivateFrameworks"
+		sudo mv ./PrivateFrameworks/MobileDevice.framework ~/.itunes_backup/Resources/PrivateFrameworks/MobileDevice.framework > /dev/null 2>&1
+		sudo mv ./PrivateFrameworks/DeviceLink.framework ~/.itunes_backup/Resources/PrivateFrameworks/DeviceLink.framework > /dev/null 2>&1
+		sudo mv ./PrivateFrameworks/AirTrafficHost.framework ~/.itunes_backup/Resources/PrivateFrameworks/AirTrafficHost.framework > /dev/null 2>&1
+		sudo mv ./PrivateFrameworks/iTunesAccess.framework ~/.itunes_backup/Resources/PrivateFrameworks/iTunesAccess.framework > /dev/null 2>&1
+		sudo mv ./PrivateFrameworks/CoreFP.framework ~/.itunes_backup/Resources/PrivateFrameworks/CoreFP.framework > /dev/null 2>&1
+	#Loading Extension(s)
+		echo "Copying Extensions"
+		sudo mv ./Extensions/AppleMobileDevice.kext ~/.itunes_backupResources/Resources/Extensions/AppleMobileDevice.kext > /dev/null 2>&1
+	#Loading CoreServices (Disabled Because it Breaks Clipboard O_o)
+		#echo "Copying CoreServices"
+		#sudo mv ./CoreServices/CoreTypes.backup ~/.itunes_backup/Resources/CoreServices/CoreTypes.bundle > /dev/null 2>&1
+	#Loading Applications
+		echo "Copying Applications"
+		sudo mv ./Applications/iTunes.app /Applications/iTunes.app > /dev/null 2>&1
+fi
+sudo rm -r ./PrivateFrameworks
+sudo rm -r ./Frameworks
+sudo rm -r ./Extensions
+sudo rm -r ./CoreServices
+sudo rm -r ./Applications
+sudo mv ./iTunesPatcher /usr/local/bin/iTunesPatcher
+sudo chmod 777 /usr/local/bin/iTunesPatcher

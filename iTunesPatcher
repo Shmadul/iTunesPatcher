@@ -1,0 +1,87 @@
+#!/bin/bash
+echo "Sierra iTunes Patcher"
+echo "@shmadul 2017"
+if [ "$1" == "-clearcache" ]
+then
+echo "Removing ~/.itunes_backup/"
+sudo rm -r ~/.itunes_backup/
+#Loading Framework(s)
+		echo "Restoring Frameworks"
+		sudo cp -f ~/.itunes_backup/Frameworks/iTunesLibrary.backup /Library/Frameworks/iTunesLibrary.framework > /dev/null 2>&1
+	#Loading PrivateFrameworks
+		echo "Loading PrivateFrameworks"
+		sudo cp -f ~/.itunes_backup/PrivateFrameworks/MobileDevice.backup /System/Library/PrivateFrameworks/MobileDevice.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/PrivateFrameworks/DeviceLink.backup /System/Library/PrivateFrameworks/DeviceLink.framework > /dev/null 2>&1
+		sudo cp -f  ~/.itunes_backup/PrivateFrameworks/AirTrafficHost.backup /System/Library/PrivateFrameworks/AirTrafficHost.framework > /dev/null 2>&1
+		sudo cp -f /System/Library/PrivateFrameworks/iTunesAccess.backup ~/.itunes_backup/PrivateFrameworks/iTunesAccess.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/PrivateFrameworks/CoreFP.backup /System/Library/PrivateFrameworks/CoreFP.framework > /dev/null 2>&1
+	#Loading Extension(s)
+		echo "Loading Extensions"
+		sudo cp -f ~/.itunes_backup/Extensions/AppleMobileDevice.backup /System/Library/Extensions/AppleMobileDevice.kext > /dev/null 2>&1
+	#Loading CoreServices (Disabled Because it Breaks Clipboard O_o)
+		#echo "Loading CoreServices"
+		#sudo cp -f ~/.itunes_backup/CoreServices/CoreTypes.backup /System/Library/CoreServices/CoreTypes.bundle 
+	#Loading Applications
+		echo "Loading Applications"
+		sudo cp -f ~/.itunes_backup/Applications/iTunes.backup /Applications/iTunes.app > /dev/null 2>&1
+exit 0
+fi
+clear
+if [ "$1" == "" ]
+then
+	echo "Usage: ./iTunesPatcher "
+	echo "-load: Loads Patched Resources"
+	echo "-unload: Reverts to Stock Resources"
+	echo "-clearcache: Removes all Back Up, and Patched Files"
+fi
+if [ "$1" == "-load" ]
+then
+#Load
+echo "Loading Frameworks"
+		sudo cp -f ./Frameworks/iTunesLibrary.framework ~/.itunes_backup/Resources/Frameworks/iTunesLibrary.framework > /dev/null 2>&1
+	#Loading PrivateFrameworks
+		echo "Patching PrivateFrameworks"
+		sudo cp -f ~/.itunes_backup/Resources/PrivateFrameworks/MobileDevice.framework /System/Library/PrivateFrameworks/MobileDevice.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/Resources/PrivateFrameworks/DeviceLink.framework /System/Library/PrivateFrameworks/DeviceLink.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/Resources/PrivateFrameworks/AirTrafficHost.framework /System/Library/PrivateFrameworks/AirTrafficHost.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/Resources/PrivateFrameworks/iTunesAccess.framework /System/Library/PrivateFrameworks/iTunesAccess.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/Resources/PrivateFrameworks/CoreFP.framework /System/Library/PrivateFrameworks/CoreFP.framework > /dev/null 2>&1
+	#Loading Extension(s)
+		echo "Patching Extensions"
+		sudo cp -f ~/.itunes_backupResources/Resources/Extensions/AppleMobileDevice.kext /System/Library/Extensions/AppleMobileDevice.kext > /dev/null 2>&1
+	#Loading CoreServices (Disabled Because it Breaks Clipboard O_o)
+		#echo "Patching CoreServices"
+		#sudo cp -f ~/.itunes_backup/Resources/CoreServices/CoreTypes.bundle /System/Library/CoreServices/CoreTypes.bundle > /dev/null 2>&1
+	#Loading Applications
+		echo "Patching Applications"
+		sudo cp -f ~/.itunes_backup/Resources/Applications/iTunes.app /Applications/iTunes.app > /dev/null 2>&1
+	#Removing iTunesLibrary.itl
+		echo "Removing iTunesLibrary.itl"
+		sudo rm -r /Users/shmadul/Music/iTunes/iTunes\ Library.itl
+	#Launching itunes
+		echo "Launching itunes"
+		sudo /Applications/iTunes.app/Contents/MacOS/itunes
+fi
+if [ "$1" == "-unload" ]
+then
+#Revert
+	#Loading Framework(s)
+		echo "Restoring Frameworks"
+		sudo cp -f ~/.itunes_backup/Frameworks/iTunesLibrary.backup /Library/Frameworks/iTunesLibrary.framework > /dev/null 2>&1
+	#Loading PrivateFrameworks
+		echo "Loading PrivateFrameworks"
+		sudo cp -f ~/.itunes_backup/PrivateFrameworks/MobileDevice.backup /System/Library/PrivateFrameworks/MobileDevice.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/PrivateFrameworks/DeviceLink.backup /System/Library/PrivateFrameworks/DeviceLink.framework > /dev/null 2>&1
+		sudo cp -f  ~/.itunes_backup/PrivateFrameworks/AirTrafficHost.backup /System/Library/PrivateFrameworks/AirTrafficHost.framework > /dev/null 2>&1
+		sudo cp -f /System/Library/PrivateFrameworks/iTunesAccess.backup ~/.itunes_backup/PrivateFrameworks/iTunesAccess.framework > /dev/null 2>&1
+		sudo cp -f ~/.itunes_backup/PrivateFrameworks/CoreFP.backup /System/Library/PrivateFrameworks/CoreFP.framework > /dev/null 2>&1
+	#Loading Extension(s)
+		echo "Loading Extensions"
+		sudo cp -f ~/.itunes_backup/Extensions/AppleMobileDevice.backup /System/Library/Extensions/AppleMobileDevice.kext > /dev/null 2>&1
+	#Loading CoreServices (Disabled Because it Breaks Clipboard O_o)
+		#echo "Loading CoreServices"
+		#sudo cp -f ~/.itunes_backup/CoreServices/CoreTypes.backup /System/Library/CoreServices/CoreTypes.bundle 
+	#Loading Applications
+		echo "Loading Applications"
+		sudo cp -f ~/.itunes_backup/Applications/iTunes.backup /Applications/iTunes.app > /dev/null 2>&1
+fi
