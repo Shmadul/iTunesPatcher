@@ -57,7 +57,7 @@ echo "Loading Frameworks"
 		sudo cp -f ~/.itunes_backup/Resources/Applications/iTunes.app /Applications/iTunes.app > /dev/null 2>&1
 	#Removing iTunesLibrary.itl
 		echo "Removing iTunesLibrary.itl"
-		sudo rm -r /Users/shmadul/Music/iTunes/iTunes\ Library.itl
+		sudo rm -r ~/iTunes\ Library.itl
 	#Launching itunes
 		echo "Launching itunes"
 		sudo /Applications/iTunes.app/Contents/MacOS/itunes
